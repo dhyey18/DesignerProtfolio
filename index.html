@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aria Chen — Creative Director</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --blush:     #f2c4ce;
+      --lavender:  #d4c5f9;
+      --mint:      #b8e8d8;
+      --butter:    #fde9a2;
+      --sky:       #b8d8f0;
+      --rose:      #e8a0b0;
+      --lilac:     #c0a8e8;
+      --sage:      #9ecfb8;
+      --bg:        #fdf8f5;
+      --ink:       #2c2320;
+      --muted:     #8a7a74;
+      --card-bg:   rgba(255,255,255,0.72);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ---- NOISE OVERLAY ---- */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.6;
+    }
+
+    /* ---- BLOBS ---- */
+    .blob {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.45;
+      z-index: 0;
+      pointer-events: none;
+      animation: float 14s ease-in-out infinite alternate;
+    }
+    .blob-1 { width: 520px; height: 520px; background: var(--blush);   top: -120px; left: -100px; animation-delay: 0s; }
+    .blob-2 { width: 400px; height: 400px; background: var(--lavender); top: 30%;   right: -80px; animation-delay: -4s; }
+    .blob-3 { width: 360px; height: 360px; background: var(--mint);    bottom: 5%; left: 10%; animation-delay: -8s; }
+    .blob-4 { width: 280px; height: 280px; background: var(--butter);  bottom: 20%; right: 15%; animation-delay: -6s; }
+
+    @keyframes float {
+      0%   { transform: translate(0,0) scale(1); }
+      100% { transform: translate(30px, 40px) scale(1.08); }
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 4rem;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      background: rgba(253,248,245,0.55);
+      border-bottom: 1px solid rgba(255,255,255,0.6);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta {
+      background: var(--ink);
+      color: var(--bg) !important;
+      padding: 0.5rem 1.3rem;
+      border-radius: 100px;
+      transition: background 0.25s, color 0.25s !important;
+    }
+    .nav-cta:hover { background: var(--rose); color: var(--ink) !important; }
+
+    /* ---- HERO ---- */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 8rem 4rem 5rem;
+      gap: 3rem;
+    }
+    .hero-left { flex: 1; max-width: 580px; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.8rem;
+      backdrop-filter: blur(8px);
+    }
+    .hero-tag span { width: 7px; height: 7px; border-radius: 50%; background: var(--sage); display: inline-block; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.4rem, 6vw, 6.2rem);
+      font-weight: 300;
+      line-height: 1.05;
+      margin-bottom: 1.6rem;
+      color: var(--ink);
+    }
+    .hero h1 em { font-style: italic; color: var(--rose); }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 420px;
+      margin-bottom: 2.4rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 0.85rem 2.2rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(44,35,32,0.18);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(44,35,32,0.22); }
+    .btn-outline {
+      border: 1.5px solid rgba(44,35,32,0.2);
+      color: var(--ink);
+      padding: 0.85rem 2.2rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      background: var(--card-bg);
+      backdrop-filter: blur(8px);
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--rose); background: rgba(242,196,206,0.25); }
+
+    /* hero right — portrait card */
+    .hero-right { flex-shrink: 0; position: relative; }
+    .portrait-wrap {
+      position: relative;
+      width: 340px; height: 420px;
+    }
+    .portrait-card {
+      position: absolute; inset: 0;
+      border-radius: 200px 200px 120px 120px;
+      background: linear-gradient(145deg, var(--blush) 0%, var(--lavender) 60%, var(--sky) 100%);
+      overflow: hidden;
+      box-shadow: 0 30px 70px rgba(44,35,32,0.13);
+    }
+    .portrait-avatar {
+      width: 100%; height: 100%;
+      display: flex; align-items: flex-end; justify-content: center;
+      overflow: hidden;
+    }
+    .portrait-avatar svg { width: 290px; }
+
+    .portrait-chip {
+      position: absolute;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.85);
+      border-radius: 14px;
+      padding: 0.65rem 1rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--ink);
+      white-space: nowrap;
+      box-shadow: 0 8px 24px rgba(44,35,32,0.09);
+    }
+    .chip-1 { bottom: -16px; left: -30px; }
+    .chip-2 { top: 30px; right: -36px; }
+    .chip-3 { bottom: 70px; right: -42px; }
+
+    /* ---- MARQUEE ---- */
+    .marquee-wrap {
+      position: relative; z-index: 1;
+      overflow: hidden;
+      padding: 1.2rem 0;
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .marquee-track {
+      display: flex; gap: 2.5rem;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.55);
+      flex-shrink: 0;
+    }
+    .marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--blush); opacity: 0.7; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ---- SECTION SHARED ---- */
+    section { position: relative; z-index: 1; }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-weight: 300;
+      line-height: 1.1;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .section-title em { font-style: italic; }
+
+    /* ---- ABOUT ---- */
+    .about {
+      padding: 6rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+    .about-text p {
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 1.2rem;
+      font-size: 0.98rem;
+    }
+    .stats-row { display: flex; gap: 2.5rem; margin-top: 2.2rem; flex-wrap: wrap; }
+    .stat-item span:first-child {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--ink);
+      display: block;
+      line-height: 1;
+    }
+    .stat-item span:last-child {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .skill-pill {
+      padding: 0.45rem 1.1rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      transition: transform 0.2s;
+      cursor: default;
+    }
+    .skill-pill:hover { transform: translateY(-2px); }
+    .sp-1 { background: rgba(242,196,206,0.45); color: #a0606c; }
+    .sp-2 { background: rgba(212,197,249,0.45); color: #6a50b0; }
+    .sp-3 { background: rgba(184,232,216,0.45); color: #3a8f6f; }
+    .sp-4 { background: rgba(253,233,162,0.45); color: #9a7c1c; }
+    .sp-5 { background: rgba(184,216,240,0.45); color: #3a6a8f; }
+
+    /* ---- WORK ---- */
+    .work { padding: 6rem 4rem; }
+    .work-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3rem; }
+    .work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.6rem; }
+
+    .project-card {
+      border-radius: 20px;
+      overflow: hidden;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(12px);
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 6px 28px rgba(44,35,32,0.07);
+      cursor: pointer;
+    }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 18px 50px rgba(44,35,32,0.13); }
+    .project-card:nth-child(1) { grid-column: span 2; }
+
+    .project-thumb {
+      width: 100%; aspect-ratio: 16/9;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.5rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+    }
+    .pt-1 { background: linear-gradient(135deg, var(--blush), var(--lavender)); color: rgba(44,35,32,0.4); }
+    .pt-2 { background: linear-gradient(135deg, var(--mint), var(--sky)); color: rgba(44,35,32,0.4); }
+    .pt-3 { background: linear-gradient(135deg, var(--butter), var(--blush)); color: rgba(44,35,32,0.4); }
+    .pt-4 { background: linear-gradient(135deg, var(--lavender), var(--mint)); color: rgba(44,35,32,0.4); }
+
+    .project-info { padding: 1.3rem 1.5rem; }
+    .project-tag {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.35rem;
+    }
+    .project-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--ink);
+    }
+
+    /* ---- SERVICES ---- */
+    .services { padding: 6rem 4rem; }
+    .services-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .services-list { display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem; }
+    .service-item {
+      padding: 1.5rem 1.8rem;
+      border-radius: 18px;
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.8);
+      backdrop-filter: blur(10px);
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 18px rgba(44,35,32,0.06);
+    }
+    .service-item:hover { transform: translateX(6px); box-shadow: 0 8px 30px rgba(44,35,32,0.1); }
+    .service-icon { font-size: 1.6rem; margin-bottom: 0.5rem; }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .service-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+    /* ---- TESTIMONIALS ---- */
+    .testimonials { padding: 6rem 4rem; }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.4rem; margin-top: 3rem; }
+    .testi-card {
+      background: var(--card-bg);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 20px;
+      padding: 1.8rem;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(44,35,32,0.06);
+    }
+    .testi-stars { font-size: 0.85rem; margin-bottom: 0.8rem; letter-spacing: 0.1em; }
+    .testi-quote { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; color: var(--ink); line-height: 1.65; margin-bottom: 1.2rem; }
+    .testi-author { display: flex; align-items: center; gap: 0.7rem; }
+    .testi-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 600; color: var(--ink);
+    }
+    .ta-1 { background: var(--blush); }
+    .ta-2 { background: var(--lavender); }
+    .ta-3 { background: var(--mint); }
+    .testi-name { font-size: 0.82rem; font-weight: 500; color: var(--ink); }
+    .testi-role { font-size: 0.72rem; color: var(--muted); }
+
+    /* ---- CONTACT ---- */
+    .contact {
+      padding: 6rem 4rem;
+      text-align: center;
+      max-width: 660px;
+      margin: 0 auto;
+    }
+    .contact .section-title { margin-bottom: 0.8rem; }
+    .contact-desc { color: var(--muted); line-height: 1.75; margin-bottom: 2.5rem; font-size: 0.97rem; }
+    .contact-form {
+      display: flex; flex-direction: column; gap: 1rem;
+      text-align: left;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-field { display: flex; flex-direction: column; gap: 0.35rem; }
+    .form-field label { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .form-field input,
+    .form-field textarea {
+      padding: 0.8rem 1.1rem;
+      border-radius: 12px;
+      border: 1.5px solid rgba(44,35,32,0.12);
+      background: rgba(255,255,255,0.65);
+      backdrop-filter: blur(8px);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      resize: vertical;
+    }
+    .form-field input:focus,
+    .form-field textarea:focus {
+      border-color: var(--rose);
+      box-shadow: 0 0 0 3px rgba(242,196,206,0.35);
+    }
+    .form-submit {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 0.9rem 2.4rem;
+      border-radius: 100px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.4rem;
+      align-self: center;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+      box-shadow: 0 4px 18px rgba(44,35,32,0.18);
+    }
+    .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(44,35,32,0.22); background: #3d2e2a; }
+
+    /* ---- FOOTER ---- */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--ink);
+      color: rgba(255,255,255,0.5);
+      padding: 2.5rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer .nav-logo { color: rgba(255,255,255,0.75); }
+    .footer-links { display: flex; gap: 2rem; }
+    .footer-links a { font-size: 0.75rem; color: rgba(255,255,255,0.45); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--blush); }
+    .footer-copy { font-size: 0.73rem; }
+
+    /* ---- ANIMATIONS ---- */
+    .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      .hero { flex-direction: column; padding: 7rem 2rem 4rem; }
+      .hero-right { display: none; }
+      .about { grid-template-columns: 1fr; padding: 4rem 2rem; gap: 2.5rem; }
+      .work { padding: 4rem 2rem; }
+      .work-grid { grid-template-columns: 1fr; }
+      .project-card:nth-child(1) { grid-column: span 1; }
+      .services { padding: 4rem 2rem; }
+      .services-inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .testimonials { padding: 4rem 2rem; }
+      .testi-grid { grid-template-columns: 1fr; }
+      .contact { padding: 4rem 2rem; }
+      .form-row { grid-template-columns: 1fr; }
+      footer { padding: 2rem; flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND BLOBS -->
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+  <div class="blob blob-4"></div>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">Aria Chen</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+      <li><a href="#contact" class="nav-cta">Let's Talk</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left fade-in">
+      <div class="hero-tag"><span></span> Available for projects</div>
+      <h1>
+        Creative<br/>
+        <em>Director</em><br/>
+        &amp; Designer
+      </h1>
+      <p class="hero-desc">
+        I craft brand identities and digital experiences that are as beautiful as they are purposeful — helping visionary founders and studios leave an unforgettable mark.
+      </p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">View My Work</a>
+        <a href="#contact" class="btn-outline">Say Hello ✉️</a>
+      </div>
+    </div>
+
+    <div class="hero-right fade-in" style="transition-delay:0.2s">
+      <div class="portrait-wrap">
+        <div class="portrait-card">
+          <div class="portrait-avatar">
+            <!-- illustrated silhouette -->
+            <svg viewBox="0 0 290 370" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- body/shoulders -->
+              <ellipse cx="145" cy="360" rx="120" ry="50" fill="rgba(255,255,255,0.35)"/>
+              <rect x="60" y="240" width="170" height="130" rx="50" fill="rgba(255,255,255,0.3)"/>
+              <!-- neck -->
+              <rect x="121" y="205" width="48" height="50" rx="14" fill="rgba(255,255,255,0.45)"/>
+              <!-- head -->
+              <ellipse cx="145" cy="178" rx="72" ry="80" fill="rgba(255,255,255,0.55)"/>
+              <!-- hair -->
+              <path d="M73 148 Q80 60 145 58 Q210 60 217 148 Q200 90 145 88 Q90 90 73 148Z" fill="rgba(44,35,32,0.2)"/>
+              <!-- eyes -->
+              <ellipse cx="122" cy="172" rx="8" ry="9" fill="rgba(44,35,32,0.35)"/>
+              <ellipse cx="168" cy="172" rx="8" ry="9" fill="rgba(44,35,32,0.35)"/>
+              <!-- smile -->
+              <path d="M128 200 Q145 216 162 200" stroke="rgba(44,35,32,0.3)" stroke-width="3" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="portrait-chip chip-1">🎨 5+ Years XP</div>
+        <div class="portrait-chip chip-2">✨ 120+ Projects</div>
+        <div class="portrait-chip chip-3">⭐ 4.9 Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item"><div class="marquee-dot"></div> Brand Identity</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Visual Design</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Art Direction</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> UI / UX Design</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Motion Graphics</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Typography</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Print & Packaging</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Brand Identity</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Visual Design</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Art Direction</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> UI / UX Design</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Motion Graphics</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Typography</div>
+      <div class="marquee-item"><div class="marquee-dot"></div> Print & Packaging</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="fade-in">
+      <p class="section-label">About Me</p>
+      <h2 class="section-title">A designer who<br/><em>thinks in stories</em></h2>
+      <div style="margin-top:1.8rem">
+        <p>Hi, I'm Aria — a Creative Director based in San Francisco with a passion for transforming complex ideas into breathtaking visual narratives.</p>
+        <p>My work sits at the intersection of strategy and aesthetics. I believe every brand has a soul waiting to be expressed, and I'm here to draw it out through typography, color, and thoughtful composition.</p>
+        <p>When I'm not designing, you'll find me at the ceramics studio, exploring food markets, or hunting for vintage typefaces.</p>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item"><span>120+</span><span>Projects Delivered</span></div>
+        <div class="stat-item"><span>5+</span><span>Years Experience</span></div>
+        <div class="stat-item"><span>48</span><span>Happy Clients</span></div>
+      </div>
+    </div>
+    <div class="fade-in" style="transition-delay:0.15s">
+      <p class="section-label">Skills &amp; Tools</p>
+      <div style="margin-bottom:1.4rem"></div>
+      <div class="skills-grid">
+        <span class="skill-pill sp-1">Brand Strategy</span>
+        <span class="skill-pill sp-2">Figma</span>
+        <span class="skill-pill sp-3">Adobe Suite</span>
+        <span class="skill-pill sp-4">Typography</span>
+        <span class="skill-pill sp-5">Webflow</span>
+        <span class="skill-pill sp-1">Logo Design</span>
+        <span class="skill-pill sp-2">Motion Design</span>
+        <span class="skill-pill sp-3">Color Theory</span>
+        <span class="skill-pill sp-4">Packaging</span>
+        <span class="skill-pill sp-5">Illustration</span>
+        <span class="skill-pill sp-1">Art Direction</span>
+        <span class="skill-pill sp-2">UX Research</span>
+        <span class="skill-pill sp-3">Print Design</span>
+        <span class="skill-pill sp-4">Framer</span>
+        <span class="skill-pill sp-5">Procreate</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="work-header fade-in">
+      <div>
+        <p class="section-label">Selected Work</p>
+        <h2 class="section-title">Projects I'm<br/><em>proud of</em></h2>
+      </div>
+      <a href="#contact" class="btn-outline" style="white-space:nowrap">View All →</a>
+    </div>
+    <div class="work-grid">
+      <div class="project-card fade-in">
+        <div class="project-thumb pt-1">Bloom</div>
+        <div class="project-info">
+          <p class="project-tag">Branding · Packaging</p>
+          <p class="project-title">Bloom Skincare — Brand Identity System</p>
+        </div>
+      </div>
+      <div class="project-card fade-in" style="transition-delay:0.1s">
+        <div class="project-thumb pt-2">N</div>
+        <div class="project-info">
+          <p class="project-tag">UI Design</p>
+          <p class="project-title">Nūro App Design</p>
+        </div>
+      </div>
+      <div class="project-card fade-in" style="transition-delay:0.15s">
+        <div class="project-thumb pt-3">Mesa</div>
+        <div class="project-info">
+          <p class="project-tag">Branding · Web</p>
+          <p class="project-title">Mesa Restaurant Visual Identity</p>
+        </div>
+      </div>
+      <div class="project-card fade-in" style="transition-delay:0.2s">
+        <div class="project-thumb pt-4">Orbit</div>
+        <div class="project-info">
+          <p class="project-tag">Art Direction</p>
+          <p class="project-title">Orbit Studio Campaign</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <div class="services-inner">
+      <div class="fade-in">
+        <p class="section-label">What I Offer</p>
+        <h2 class="section-title">Services<br/><em>built for</em><br/>impact</h2>
+        <p style="color:var(--muted);font-size:0.9rem;line-height:1.75;margin-top:1.2rem">Every engagement is tailored. Whether you need a full brand overhaul or a precise design sprint, I bring the same level of care.</p>
+        <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:2rem;text-decoration:none">Start a Project</a>
+      </div>
+      <div class="services-list fade-in" style="transition-delay:0.15s">
+        <div class="service-item">
+          <div class="service-icon">✦</div>
+          <p class="service-name">Brand Identity</p>
+          <p class="service-desc">Complete visual systems — logo, color, type, tone. Everything that makes your brand instantly recognizable and emotionally resonant.</p>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">◈</div>
+          <p class="service-name">UI / UX Design</p>
+          <p class="service-desc">Interfaces that convert, delight, and earn loyalty. Research-backed flows paired with refined visual execution.</p>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">❋</div>
+          <p class="service-name">Art Direction</p>
+          <p class="service-desc">Creative leadership for campaigns, launches, and editorial projects. I bring cohesion and vision to multi-channel storytelling.</p>
+        </div>
+        <div class="service-item">
+          <div class="service-icon">◎</div>
+          <p class="service-name">Print &amp; Packaging</p>
+          <p class="service-desc">Tangible design that creates lasting impressions — from bespoke packaging systems to beautifully typeset editorial pieces.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" id="testimonials">
+    <div style="text-align:center" class="fade-in">
+      <p class="section-label">Kind Words</p>
+      <h2 class="section-title">What clients<br/><em>are saying</em></h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card fade-in" style="transition-delay:0.05s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Aria completely transformed how our brand communicates. The identity she created is bold, warm, and endlessly versatile. We get compliments every day."</p>
+        <div class="testi-author">
+          <div class="testi-avatar ta-1">SK</div>
+          <div>
+            <p class="testi-name">Sophie Kim</p>
+            <p class="testi-role">Founder, Bloom Skincare</p>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in" style="transition-delay:0.1s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"Working with Aria felt effortless. She understood our vision before we could fully articulate it, and the final product exceeded every expectation."</p>
+        <div class="testi-author">
+          <div class="testi-avatar ta-2">MR</div>
+          <div>
+            <p class="testi-name">Marcus Reid</p>
+            <p class="testi-role">CEO, Nūro</p>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card fade-in" style="transition-delay:0.15s">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-quote">"The packaging Aria designed tripled our unboxing share rate on Instagram. She thinks deeply about how design lives in the real world."</p>
+        <div class="testi-author">
+          <div class="testi-avatar ta-3">LC</div>
+          <div>
+            <p class="testi-name">Lena Cruz</p>
+            <p class="testi-role">Creative Lead, Mesa</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="fade-in">
+      <p class="section-label">Get In Touch</p>
+      <h2 class="section-title">Let's create<br/><em>something</em> together</h2>
+      <p class="contact-desc">Have a project in mind? I'd love to hear about it. Send a message and I'll get back to you within 24 hours.</p>
+      <form class="contact-form" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-field">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required/>
+          </div>
+          <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" required/>
+          </div>
+        </div>
+        <div class="form-field">
+          <label for="subject">Subject</label>
+          <input type="text" id="subject" placeholder="Brand Identity Project"/>
+        </div>
+        <div class="form-field">
+          <label for="message">Message</label>
+          <textarea id="message" rows="5" placeholder="Tell me about your project..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="submitBtn">Send Message ✦</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#" class="nav-logo">Aria Chen</a>
+    <nav class="footer-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="mailto:hello@ariachen.co">Email</a>
+    </nav>
+    <p class="footer-copy">© 2025 Aria Chen. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Intersection Observer for fade-in
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Trigger hero immediately
+    document.querySelectorAll('.hero .fade-in').forEach(el => {
+      setTimeout(() => el.classList.add('visible'), 100);
+    });
+
+    // Form submit
+    function handleSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Message Sent! 🌸';
+        btn.style.background = '#9ecfb8';
+        btn.style.color = '#2c6a50';
+      }, 1200);
+    }
+
+    // Smooth parallax on blobs
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      document.querySelector('.blob-1').style.transform = `translate(${x * 0.5}px, ${y * 0.5}px)`;
+      document.querySelector('.blob-2').style.transform = `translate(${-x * 0.4}px, ${-y * 0.4}px)`;
+      document.querySelector('.blob-3').style.transform = `translate(${x * 0.3}px, ${-y * 0.6}px)`;
+    });
+  </script>
+</body>
+</html>
